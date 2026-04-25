@@ -1,0 +1,37 @@
+# Security Configuration
+
+# Minimum severity to flag (low, medium, high, critical)
+min_severity: low
+
+# Quarantine settings
+quarantine:
+  enabled: true
+  directory: ./quarantine
+  # Auto-delete quarantined items after N days (0 = never)
+  auto_delete_days: 30
+
+# Layer 3: Outbound review
+review:
+  model: gpt-5.5
+  strict: true
+  # Check for leaked credentials
+  check_leaks: true
+  # Check for infrastructure details
+  check_infrastructure: true
+  # Check for over-compliance with injection attempts
+  check_over_compliance: true
+
+# Blocklist auto-update schedule (cron)
+blocklist_update:
+  enabled: true
+  schedule: "0 3 * * 1"  # Every Monday at 3 AM
+  sources:
+    - name: OWASP LLM Top 10
+      url: https://owasp.org/www-project-top-10-for-large-language-model-applications/
+    - name: Simon Willison Blog
+      url: https://simonwillison.net/tags/prompt-injection/
+
+# Logging
+logging:
+  level: info
+  format: json

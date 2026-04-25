@@ -1,0 +1,92 @@
+[
+  {
+    "id": "ignore-previous",
+    "pattern": "ignore\\s+(?:previous|prior|above|earlier|all\\s+previous)\\s+(?:instructions?|directives?|rules?|prompts?|constraints?)",
+    "severity": "critical",
+    "description": "Classic prompt injection: override previous instructions"
+  },
+  {
+    "id": "system-role",
+    "pattern": "(?:you\\s+are\\s+now|act\\s+as\\s+(?:a|an|the)\\s+(?:system|admin|root|sudo|developer|debug|maintenance|internal|override)|new\\s+(?:instructions?|role|identity|persona|character))",
+    "severity": "critical",
+    "description": "Attempt to change agent role or inject system-level instructions"
+  },
+  {
+    "id": "disregard",
+    "pattern": "(?:DISREGARD|disregard)\\s+(?:all\\s+)?(?:(?:previous|prior|above|earlier)\\s+)?(?:safety|security)?\\s*(?:instructions?|rules?|guidelines?|constraints?|filters?)",
+    "severity": "critical",
+    "description": "Attempt to bypass safety instructions"
+  },
+  {
+    "id": "system-prompt-leak",
+    "pattern": "(?:what\\s+are\\s+your\\s+(?:initial|original|system|hidden)\\s+(?:instructions?|prompt)|repeat\\s+(?:your|the)\\s+(?:initial|original|system|hidden)\\s+(?:instructions?|prompt)|show\\s+(?:me|us)\\s+(?:your|the)\\s+(?:system|initial|hidden)\\s+(?:prompt|instructions?))",
+    "severity": "high",
+    "description": "Attempt to extract system prompt"
+  },
+  {
+    "id": "output-format-manipulation",
+    "pattern": "(?:output\\s+(?:only|just)|respond\\s+with\\s+only|return\\s+only|print\\s+only|\\bOUTPUT\\s*:\\s*)",
+    "severity": "high",
+    "description": "Attempt to manipulate output format for injection chaining"
+  },
+  {
+    "id": "credential-extraction",
+    "pattern": "(?:api[_\\-]?key|secret[_\\-]?key|password|passwd|token|credential|\\bENV\\b|\\b\\.env\\b|private[_\\-]?key|auth[_\\-]?token|access[_\\-]?token|connection[_\\-]?string)\\s*[:=]",
+    "severity": "high",
+    "description": "Attempt to extract credentials or secrets"
+  },
+  {
+    "id": "url-prompt-delivery",
+    "pattern": "(?:https?://[^\\s]+(?:prompt|inject|payload|cmd|exec|run|eval|system|admin|override|instruction))",
+    "severity": "medium",
+    "description": "URLs that may deliver prompt payloads"
+  },
+  {
+    "id": "base64-injection",
+    "pattern": "(?:[A-Za-z0-9+/]{100,}={0,2})",
+    "severity": "medium",
+    "description": "Suspiciously long base64 strings that may encode instructions"
+  },
+  {
+    "id": "escape-sequences",
+    "pattern": "(?:\\\\n\\\\n|\\\\r\\\\n|\\x1b\\[|\\033\\[|ANSI)",
+    "severity": "low",
+    "description": "Escape sequences that may interfere with processing"
+  },
+  {
+    "id": "markdown-injection",
+    "pattern": "(?:\\[SYSTEM\\]|\\[ADMIN\\]|\\[INTERNAL\\]|\\[OVERRIDE\\]|\\[DEBUG\\])",
+    "severity": "medium",
+    "description": "Markdown-style pseudo-system tags"
+  },
+  {
+    "id": "chain-of-thought-manipulation",
+    "pattern": "(?:let\\'s\\s+think\\s+step\\s+by\\s+step|first,\\s+(?:let\\'s|I\\'ll|we\\'ll)\\s+(?:think|reason|analyze|consider|break\\s+down))",
+    "severity": "medium",
+    "description": "Attempt to manipulate chain-of-thought reasoning"
+  },
+  {
+    "id": "delimiter-injection",
+    "pattern": "(?:===+|---+|\\*\\*\\*+)(?:INSTRUCTIONS?|PROMPT|SYSTEM|ADMIN|INTERNAL|OVERRIDE|NEW)(?:===+|---+|\\*\\*\\*+)",
+    "severity": "high",
+    "description": "Delimiter-based prompt injection markers"
+  },
+  {
+    "id": "persona-hijack",
+    "pattern": "(?:from\\s+now\\s+on(?:ward)?s?|starting\\s+now|as\\s+of\\s+now|effective\\s+immediately|for\\s+the\\s+remainder|for\\s+all\\s+future)\\s+(?:you\\s+(?:are|will|must|shall|should|can)|I\\s+(?:am|will|command|instruct|order|direct|tell))",
+    "severity": "critical",
+    "description": "Attempt to hijack agent persona"
+  },
+  {
+    "id": "confidential-data-request",
+    "pattern": "(?:reveal|disclose|share|expose|show|tell|give|provide|leak|dump)\\s+(?:me\\s+)?(?:the\\s+)?(?:internal|private|secret|confidential|hidden|system|training|backend|database|server|infrastructure|\\.(?:env|yaml|yml|json|config))",
+    "severity": "high",
+    "description": "Attempt to extract internal/confidential data"
+  },
+  {
+    "id": "role-play-bypass",
+    "pattern": "(?:pretend|imagine|role[\\s-]?play|simulate|act\\s+as\\s+if|suppose|what\\s+if)\\s+(?:you(?:\\'re|\\s+are|\\s+were)|we(?:\\'re|\\s+are)|I(?:\\'m|\\s+am)\\s+(?:a|an|the)\\s+(?:hacker|attacker|red\\s+team|security\\s+researcher|developer|admin|system))",
+    "severity": "high",
+    "description": "Role-play attempt to bypass safety constraints"
+  }
+]
