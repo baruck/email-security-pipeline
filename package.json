@@ -1,6 +1,6 @@
 {
   "name": "email-security-pipeline",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Email sanitization, prompt injection detection, and outbound review pipeline for AI agent email workflows",
   "main": "src/pipeline.js",
   "scripts": {
