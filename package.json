@@ -12,7 +12,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/codunosor/email-security-pipeline.git"
+    "url": "https://github.com/baruck/email-security-pipeline.git"
   },
   "dependencies": {
     "html-to-text": "^9.0.5",
