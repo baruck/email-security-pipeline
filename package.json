@@ -1,22 +1,23 @@
 {
-  "name": "openclaw-module-email-security",
+  "name": "email-security-pipeline",
   "version": "1.0.0",
-  "description": "Email sanitization, injection detection, and outbound review pipeline for AI agent email workflows",
+  "description": "Email sanitization, prompt injection detection, and outbound review pipeline for AI agent email workflows",
   "main": "src/pipeline.js",
   "scripts": {
     "test": "node --test test/",
     "sanitize": "node src/pipeline.js",
     "update-blocklist": "node src/blocklistUpdater.js"
   },
-  "keywords": ["email", "security", "prompt-injection", "sanitization", "ai-agent", "openclaw"],
+  "keywords": ["email", "security", "prompt-injection", "sanitization", "ai-agent", "llm-safety"],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codunosor/email-security-pipeline.git"
+  },
   "dependencies": {
     "html-to-text": "^9.0.5",
     "iconv-lite": "^0.6.3",
-    "mailparser": "^3.7.2",
     "unidecode": "^1.1.0"
   },
-  "devDependencies": {
-    "node-fetch": "^3.0.0"
-  }
+  "devDependencies": {}
 }

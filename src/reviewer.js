@@ -1,7 +1,7 @@
 /**
  * Layer 3: Outbound Review
  * 
- * Uses a strong LLM (GPT-5.5 or configurable) to review outbound emails
+ * Uses a configurable LLM to review outbound emails
  * before sending. Checks for leaked credentials, infrastructure details,
  * and over-compliance with injection attempts.
  */
@@ -27,7 +27,7 @@ const LEAK_PATTERNS = [
 
 class OutboundReviewer {
   constructor(options = {}) {
-    this.model = options.model || 'gpt-5.5';
+    this.model = options.model || 'gpt-4o';
     this.strict = options.strict !== false;
     this.apiEndpoint = options.apiEndpoint || null;
     this.apiKey = options.apiKey || null;

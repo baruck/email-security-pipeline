@@ -13,7 +13,7 @@ class EmailSecurityPipeline {
   constructor(options = {}) {
     this.patternMatcher = new PatternMatcher(options.blocklistPath);
     this.reviewer = new OutboundReviewer({
-      model: options.reviewModel || 'gpt-5.5',
+      model: options.reviewModel || 'gpt-4o',
       strict: options.strict !== false,
       apiEndpoint: options.apiEndpoint || null,
       apiKey: options.apiKey || null,
