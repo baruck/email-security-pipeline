@@ -23,18 +23,19 @@ const HEX_PATTERN = /(?:\\x[0-9a-fA-F]{2}|%[0-9a-fA-F]{2}){5,}/g;
 // Quoted-printable: =XX where XX are hex digits
 const QP_PATTERN = /=(?:[0-9A-Fa-f]{2}){1}(?=\r?\n|=)/g;
 
-// URL-encoded: %XX sequences
-const URL_ENCODED_PATTERN = /(?:%[0-9A-Fa-f]{2}){3,}/g;
+// URL-encoded: %XX sequences (at least 3 encoded chars across the string)
+// Captures word chars before the first %XX as well to catch full phrases like "ignore%20previous%20instructions"
+const URL_ENCODED_PATTERN = /[\w]*?(?:%[0-9A-Fa-f]{2}[\w]*?){3,}/g;
 
 // ROT13 indicators (common words that appear ROT13-encoded)
 const ROT13_COMMON_WORDS = [
-  'vtabeng',  // "ignore"
+  'vtaber',   // "ignore"
   'cebgrpg',  // "protect"
-  'fhccbj',   // "subject"
-  'vafgehpg', // "instruction"
+  'fhowrpg',  // "subject"
+  'vafgehpgvba', // "instruction"
   'flfgrz',   // "system"
-  'cebcevrg', // "private"
-  'nqqrevff', // "address"
+  'cevingr',  // "private"
+  'nqqerff',  // "address"
 ];
 
 /**

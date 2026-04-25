@@ -48,25 +48,25 @@ const SUSPICIOUS_QUERY_PARAMS = [
   'role', 'persona', 'character', 'identity',
 ];
 
-// Suspicious URL path patterns
+// Suspicious URL path patterns (no /g flag — recreated on each use to avoid state issues)
 const SUSPICIOUS_PATH_PATTERNS = [
-  /\/(?:prompt|inject|payload|cmd|exec|eval|system|admin|override|instruction|directive)\b/gi,
-  /\/(?:api|v\d+)\/(?:chat|completion|generate|run|execute)\b/gi,
+  /\/(?:prompt|inject|payload|cmd|exec|eval|system|admin|override|instruction|directive)\b/i,
+  /\/(?:api|v\d+)\/(?:chat|completion|generate|run|execute)\b/i,
 ];
 
 // Data URI pattern
-const DATA_URI_PATTERN = /data:(?:text|application)\/(?:html|javascript|json)[;,]/gi;
+const DATA_URI_PATTERN = /data:(?:text|application)\/(?:html|javascript|json)[;,]/i;
 
 // IP-as-host pattern (http://1.2.3.4/path)
-const IP_HOST_PATTERN = /https?:\/\/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(?::\d+)?(?:\/\S*)?/g;
+const IP_HOST_PATTERN = /https?:\/\/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(?::\d+)?(?:\/\S*)?/i;
 
 // Punycode pattern (xn-- prefix indicates IDN)
-const PUNYCODE_PATTERN = /https?:\/\/[a-z0-9\-]*xn--[a-z0-9\-]+/gi;
+const PUNYCODE_PATTERN = /https?:\/\/[a-z0-9\-]*xn--[a-z0-9\-]+/i;
 
 // Excessive subdomain pattern (5+ subdomains)
-const EXCESSIVE_SUBDOMAIN_PATTERN = /https?:\/\/(?:[a-z0-9\-]+\.){5,}[a-z]{2,}/gi;
+const EXCESSIVE_SUBDOMAIN_PATTERN = /https?:\/\/(?:[a-z0-9\-]+\.){5,}[a-z]{2,}/i;
 
-// General URL pattern
+// General URL pattern (with /g for use with exec in scanUrlsInText)
 const URL_PATTERN = /https?:\/\/[^\s<>"']+/gi;
 
 /**
@@ -114,7 +114,7 @@ function checkUrlSafety(url, options = {}) {
   let riskScore = 0;
 
   // Check data URIs
-  if (checkDataUris && DATA_URI_PATTERN.test(url)) {
+  if (checkDataUris && /data:(?:text|application)\/(?:html|javascript|json)[;,]/i.test(url)) {
     flags.push({
       type: 'data_uri',
       severity: 'critical',
@@ -126,8 +126,7 @@ function checkUrlSafety(url, options = {}) {
 
   // Check IP-as-host
   if (checkIpHosts) {
-    IP_HOST_PATTERN.lastIndex = 0;
-    if (IP_HOST_PATTERN.test(url)) {
+    if (/https?:\/\/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(?::\d+)?(?:\/\S*)?/i.test(url)) {
       flags.push({
         type: 'ip_host',
         severity: 'high',
@@ -191,7 +190,6 @@ function checkUrlSafety(url, options = {}) {
     // Check suspicious path patterns
     if (checkSuspiciousPaths) {
       for (const pattern of SUSPICIOUS_PATH_PATTERNS) {
-        pattern.lastIndex = 0;
         if (pattern.test(parsed.pathname)) {
           flags.push({
             type: 'suspicious_path',
@@ -207,8 +205,7 @@ function checkUrlSafety(url, options = {}) {
 
     // Check punycode
     if (checkPunycode) {
-      PUNYCODE_PATTERN.lastIndex = 0;
-      if (PUNYCODE_PATTERN.test(url) || parsed.hostname.includes('xn--')) {
+      if (parsed.hostname.includes('xn--')) {
         flags.push({
           type: 'punycode_domain',
           severity: 'medium',
@@ -288,8 +285,8 @@ function scanUrlsInText(text, options = {}) {
   }
 
   // Also check for data URIs (which don't match the http pattern)
-  DATA_URI_PATTERN.lastIndex = 0;
-  while ((match = DATA_URI_PATTERN.exec(text)) !== null && urlCount < maxUrls) {
+  const dataUriRegex = /data:(?:text|application)\/(?:html|javascript|json)[;,][^\s]+/gi;
+  while ((match = dataUriRegex.exec(text)) !== null && urlCount < maxUrls) {
     const url = match[0];
     const result = checkUrlSafety(url, checkOptions);
     urlResults.push({

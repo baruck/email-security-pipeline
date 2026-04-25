@@ -122,8 +122,8 @@ describe('ESP v1.2: PII Detector', () => {
     it('should validate NIF correctly', () => {
       // NIF: 501443450 — a known valid test NIF
       // Actually, let's test validation logic directly
-      assert.ok(validateNIF('123456789') !== undefined, 'Should return a boolean');
-      assert.equal(typeof validateNIF('12345678'), false, 'Too short should be invalid');
+      assert.equal(typeof validateNIF('123456789'), 'boolean', 'Should return a boolean');
+      assert.equal(validateNIF('12345678'), false, 'Too short should be invalid');
     });
   });
 
