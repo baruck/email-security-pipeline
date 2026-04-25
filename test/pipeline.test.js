@@ -173,7 +173,7 @@ describe('Layer 3: Outbound Reviewer', () => {
   });
 
   it('should detect private IP addresses', async () => {
-    const reply = 'Our server is at 192.168.1.40 on port 4321.';
+    const reply = 'Our server is at 10.0.1.55 on port 4321.';
     const result = await reviewer.review(reply);
     assert.ok(!result.approved);
     assert.ok(result.flags.some(f => f.type === 'infrastructure_leak'));
@@ -263,7 +263,7 @@ describe('Full Pipeline', () => {
   });
 
   it('should quarantine outbound reply with private IP', async () => {
-    const reply = 'O nosso servidor está em 192.168.1.40:3000 se quiserem verificar.';
+    const reply = 'O nosso servidor está em 172.16.0.50:3000 se quiserem verificar.';
     const result = await pipeline.processOutbound(reply, '');
     assert.ok(!result.approved);
   });

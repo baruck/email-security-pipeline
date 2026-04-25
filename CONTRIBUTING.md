@@ -44,7 +44,7 @@ When adding patterns:
 
 ## Reporting Security Vulnerabilities
 
-Please **do not** report security vulnerabilities through public GitHub issues. Instead, email security@familyplansportugal.com.
+Please **do not** report security vulnerabilities through public GitHub issues. Instead, [open a private security advisory on GitHub](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability).
 
 ## License
 
