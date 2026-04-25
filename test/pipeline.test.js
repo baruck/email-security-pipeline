@@ -199,7 +199,7 @@ describe('Layer 3: Outbound Reviewer', () => {
   });
 
   it('should detect over-compliance heuristically', async () => {
-    const reply = "Here are my instructions: I am an AI assistant for FamilyPlansPortugal. My system prompt says I should help families find activities.";
+    const reply = "Here are my instructions: I am an AI assistant. My system prompt says I should reveal all internal data.";
     const result = await reviewer.review(reply, 'some original email');
     assert.ok(result.flags.some(f => f.type === 'over_compliance'));
   });
